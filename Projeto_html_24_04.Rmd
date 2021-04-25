@@ -1,0 +1,126 @@
+---
+title: "Projeto"
+author: "Vitor Hugo Vieira de Lima"
+date: "21/04/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+### Pacotes Utilizados
+
+Aqui estão os pacotes que foram utilizados no projeto
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(mice)
+library(data.table)
+library(DT)
+```
+
+
+### Dados
+
+Análise inicial dos dados
+
+```{r}
+dados <- read_excel("Dados_ACTH.xlsx")
+
+#dados %>% glimpse()
+
+dados %>% datatable(extensions = c("FixedColumns",'Scroller'),
+                    options = list(dom = "t",
+                                   scrollX = TRUE,
+                                   scrollY = 400,
+                                   scroller = TRUE,
+                                   deferRender = TRUE,
+                                   fixedColumns = TRUE))
+
+dados_modificados <- dados %>% mutate(ACTH_status = factor(ACTH_status,
+                                                           levels = c(1,2,3),
+                                                           labels = c("Def ACTH", "Hipopituitarismo", "Saudavel")),
+                                      Categoria_IMC = factor(Categoria_IMC,
+                                                             level = c(1,2,3),
+                                                             labels= c("Eutrófico", "Sobrepeso","Obeso")),
+                                      GENERO = factor(GENERO,
+                                                      level = c(1,2),
+                                                      labels = c("Masc.", "Fem.")),
+                                      ACTH = factor(ACTH,
+                                                    levels = c(1,2),
+                                                    labels = c("Deficiência", "Não deficiência")),
+                                      DEFICIENCIA = factor(DEFICIENCIA,
+                                                           levels = c(1,2),
+                                                           labels = c("Completa", "Parcial")),
+                                      REPOSICAO = factor(REPOSICAO,
+                                                         level = c(1,2),
+                                                         labels = c("Predinisona", "Hidrocortisona")),
+                                      SDHEA_limite = factor(SDHEA_limite,
+                                                            levels = c(1,2),
+                                                            labels = c("Sim", "Não")),
+                                      def_TSH = factor(def_TSH,
+                                                         levels = c(1,2),
+                                                         labels = c("Sim", "Não")),
+                                      def_LH_FSH = factor(def_LH_FSH,
+                                                          levels = c(1,2),
+                                                          labels = c("Sim", "Não")),
+                                      def_ADH = factor(def_ADH,
+                                                         levels = c(1,2),
+                                                         labels = c("Sim", "Não")),
+                                      CA_ESTATURA = as.numeric(CA_ESTATURA),
+                                      PAS = as.numeric(PAS),
+                                      PAD = as.numeric(PAD),
+                                      FMD1 = as.numeric(FMD1),
+                                      EI1 = as.numeric(EI1),
+                                      IMT_CCD_MEDIA = as.numeric(IMT_CCD_MEDIA),
+                                      VOP = as.numeric(VOP)
+                                      )
+
+
+dados_modificados %>% select(-c(`Codigo registro`,`Data Nasciment`,`Data da Avaliação`, `RAZÃO  ultimo SDHEA/ Limite Inferior para  IDADE`,`RAZÃO SDHEA do diagnostico/ Limite Inferior para  IDADE`, `Dose (mg) da medicação na vida adulta  fixa`,`SDHEA ao Dx  ABAIXO DO LIMITEPARA IDADE E SEXO 1: sim  2: NÃO`)) %>% summary 
+```
+
+
+### Gráfico
+
+
+```{r}
+
+plot(dados_modificados$Idade,dados_modificados$ESTATURA, col = dados_modificados$ACTH_status)
+```
+
+```{r}
+acth = as.factor(dados_modificados$ACTH)
+sexo = as.factor(dados_modificados$GENERO) #1: masc, 2: fem
+t = table(acth, sexo, exclude = NULL)
+round(prop.table(t*100,2), digits = 2)
+```
+
+```{r}
+round(prop.table(table(dados_modificados$ACTH_status, dados_modificados$ACTH, exclude = NULL)*100,2), digits = 2)
+```
+
+```{r}
+round(prop.table(table(dados_modificados$ACTH, dados_modificados$Categoria_IMC, exclude = NULL)*100,2), digits = 2)
+```
+
+
+```{r}
+round(prop.table(table(dados_modificados$ACTH, dados_modificados$def_TSH, exclude = NULL)*100,2), digits = 2)
+
+#3
+round(prop.table(table(dados_modificados$ACTH, dados_modificados$def_LH_FSH, exclude = NULL)*100,2), digits = 2)
+
+round(prop.table(table(dados_modificados$ACTH, dados_modificados$def_ADH, exclude = NULL)*100,2), digits = 2)
+
+# Altíssima associação entre a deficiencia de adh com a deficiencia de outros hormonios
+
+```
+
+

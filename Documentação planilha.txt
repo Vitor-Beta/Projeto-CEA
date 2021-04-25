@@ -1,0 +1,35 @@
+Algumas definições:
+
+ACTH: Adrenocorticotropic Hormone (An ACTH test is often done along with a cortisol test to diagnose disorders of the pituitary or adrenal glands.)
+TSH: thyroid stimulating hormone
+ADH: antidiuretic hormone
+Hipotuitarismo: Deficiência na hipófise que impede a produção de hormonôios em quantidade suficiente.
+----------------------------------------------------------------------------------
+Variáveis renomeadas:
+
+def_ADH; deficiência de ADH: 1 SIM . 2 não ( deficiencia de  hormronio anti-diurético)
+def_LH_FSH; deficiencia de LH/FSH 1 SIM. 2 Não ( deficiencia de hormonios gonadotrofos)
+def_TSH; deficiencia de TSH 1 SIM. 2 Não ( deficiencia de hormonio tireotrofo)
+SDHEA_limite; ultimo SDHEA  ABAIXO DO LIMITEPARA IDADE E SEXO 1: sim  2: NÃO 
+Uso_corticoide; Tempo de uso de corticoide
+Dose_hidrocortisona; dose na via adulta equivalente de hidrocortisona (mg)
+Categoria_IMC; 'Obesidade: Ausente/eutrofico:1; Sobrepeso:2; Obesidade3'
+ACTH_status; deficiente de hormonio corticotrofo(ACTH) 1; Controle hipopituitarismo 2; controle saudável 3
+
+
+
+----------------------------------------------------------------------------------
+Dúvidas:
+- O tempo de corticoide está em qual unidade?
+- Na coluna AP: dose de qual medicação?
+
+
+
+----------------------------------------------------------------------------------
+Sugestões:
+- Padronizar as variáveis para obter unidades de medidas iguais
+- Não usaremos as operações feitas por ela
+
+
+
+
